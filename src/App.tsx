@@ -23,6 +23,18 @@ export default function App() {
             }
         }
         load()
+
+        const intervalId = setInterval(() => {
+            try {
+                getGames()
+            } catch (error) {
+                console.error(error)
+            }
+        }, 5000)
+
+        return () => {
+            clearInterval(intervalId)
+        }
     }, [])
 
     useEffect(() => {
@@ -48,14 +60,14 @@ export default function App() {
 
                 {!loading && !error && games?.data && games.data.length > 0 ? (
                     <div className="grid">
-                    {games.data.map((el) => (
-                        <GameCard key={el.id} {...el} />
-                    ))}
+                        {games.data.map((el) => (
+                            <GameCard key={el.id} {...el} />
+                        ))}
                     </div>
                 ) : (
                     <p className="hint">
                         Полка пуста. Добавьте первую игру через форму.
-                    </p> 
+                    </p>
                 )}
             </main>
         </div>
